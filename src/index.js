@@ -1,5 +1,25 @@
+import '@webcomponents/custom-elements/src/native-shim';
+import '@webcomponents/custom-elements';
+import '@webcomponents/shadydom';
+
+import { AppRoot } from './components/AppRoot';
+import { Knob } from './components/Knob';
+import { TogglePlay } from './components/TogglePlay';
+import { AudioBuffer } from './components/Sources/AudioBuffer';
+import { defineComponents } from './utils/defineComponents';
 import { loadSample } from './utils/loadSample';
 import { SAMPLE_URL } from './consts';
+import { AudioStream } from './components/AudioStream';
+import { AudioFilter } from './components/effects/AudioFilter';
+
+defineComponents([
+  ['app-root', AppRoot],
+  ['audio-knob', Knob],
+  ['toggle-play', TogglePlay],
+  ['audio-stream', AudioStream],
+  ['audio-buffer', AudioBuffer],
+  ['audio-filter', AudioFilter],
+]);
 
 const audioContext = new AudioContext();
 let samplebuffer = null;
