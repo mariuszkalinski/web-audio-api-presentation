@@ -1,11 +1,15 @@
-import { decorate, observable } from 'mobx';
+import { RootStore } from '../../store/rootStore';
 
 export class AudioFilter extends HTMLElement {
   constructor() {
     super();
+    this.RootStore = new RootStore();
     this.shadowRoots = this.attachShadow({
       mode: 'open',
     });
+
+    console.log(this.getStoreData()); //eslint-disable-line
+
     this.shadowRoots.innerHTML = /* html */ `
       <style>
         :host {
@@ -52,6 +56,10 @@ export class AudioFilter extends HTMLElement {
     });
   }
 
+  getStoreData() {
+    return this.rootStore.total();
+  }
+
   static handleInputChange(event) {
     const { name, value } = event.target;
 
@@ -61,10 +69,3 @@ export class AudioFilter extends HTMLElement {
     };
   }
 }
-
-decorate(AudioFilter, {
-  type: observable,
-  detune: observable,
-  frequency: observable,
-  gain: observable,
-});
