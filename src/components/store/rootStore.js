@@ -1,10 +1,25 @@
 import { observable, computed } from 'mobx';
 
-export class RootStore {
-  @observable price = 10;
-  @observable amount = 2;
+class RootStore {
+  @observable filter = {
+    type: 'lowpass',
+    detune: 0,
+    frequency: 0,
+    gain: 0,
+  }
 
-  @computed get total() {
-    return this.price * this.amount;
+  @computed get filterValues() {
+    return this.filter;
+  }
+
+  changeFilter(value) {
+    debugger; //eslint-disable-line
+    const newFilter = {
+      ...this.filter,
+      ...value,
+    };
+    this.filter = newFilter;
   }
 }
+
+export const store = new RootStore();

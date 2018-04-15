@@ -1,14 +1,12 @@
-import { RootStore } from '../../store/rootStore';
+import { store } from '../../store/rootStore';
 
 export class AudioFilter extends HTMLElement {
   constructor() {
     super();
-    this.RootStore = new RootStore();
+    this.store = store;
     this.shadowRoots = this.attachShadow({
       mode: 'open',
     });
-
-    console.log(this.getStoreData()); //eslint-disable-line
 
     this.shadowRoots.innerHTML = /* html */ `
       <style>
@@ -49,23 +47,20 @@ export class AudioFilter extends HTMLElement {
       </form>
     `;
 
-    this.shadowRoots.querySelector('select').onchange = this.handleInputChange;
+    this.shadowRoots.querySelector('select').onchange = event => this.handleInputChange(event);
     this.shadowRoots.querySelectorAll('input').forEach((field) => {
       const field2 = field;
-      field2.onchange = this.handleInputChange;
+      field2.onchange = event => this.handleInputChange(event);
     });
   }
 
-  getStoreData() {
-    return this.rootStore.total();
-  }
+  getStoreData = () => this.store.filter;
 
-  static handleInputChange(event) {
+  handleInputChange = (event) => {
     const { name, value } = event.target;
-
-    return {
-      name,
-      value,
-    };
+    this.store.changeFilter({
+      [name]: value,
+    });
+    debugger; //eslint-disable-line
   }
 }
