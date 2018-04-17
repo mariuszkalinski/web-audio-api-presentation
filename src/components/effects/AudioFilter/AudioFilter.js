@@ -1,4 +1,4 @@
-import { store } from '../../store/rootStore';
+import { store } from '../../../store/rootStore';
 
 export class AudioFilter extends HTMLElement {
   constructor() {
@@ -54,13 +54,10 @@ export class AudioFilter extends HTMLElement {
     });
   }
 
-  getStoreData = () => this.store.filter;
-
   handleInputChange = (event) => {
     const { name, value } = event.target;
     this.store.changeFilter({
       [name]: value,
     });
-    debugger; //eslint-disable-line
   }
 }
