@@ -28,8 +28,7 @@ export class TogglePlay extends HTMLElement {
     });
   }
 
-  handleClick = (event) => {
-    console.log(event); //eslint-disable-line
+  handleClick = () => {
     this.store.togglePlayPause();
   }
 }

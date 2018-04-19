@@ -34,15 +34,15 @@ export class AudioFilter extends HTMLElement {
         </div>
         <div>
           <label for="detune">Detune</label>
-          <input type="number" name="detune" id="detune">
+          <input type="range" name="detune" id="detune">
         </div>
         <div>
           <label for="frequency">Frequency</label>
-          <input type="number" name="frequency" id="frequency">
+          <input type="range" name="frequency" id="frequency" min="0" max="3000" value="0">
         </div>
         <div>
           <label for="gain">Gain</label>
-          <input type="number" name="gain" id="gain">
+          <input type="range" name="gain" id="gain">
         </div>
       </form>
     `;

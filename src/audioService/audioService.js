@@ -1,4 +1,4 @@
-import { autorun } from 'mobx';
+import { reaction } from 'mobx';
 import { store } from '../store/rootStore';
 import { loadSample } from '../utils/loadSample';
 import { SAMPLE_URL } from '../consts';
@@ -12,7 +12,14 @@ export class AudioService {
     this.source = this.audioContext.createBufferSource();
   }
 
-  createSound = (buffer, context, filterType) => {
+  generateSound = () => {
+    this.source.buffer = this.samplebuffer;
+    this.source.loop = true;
+    this.source.connect(this.filter);
+    this.filter.connect(this.audioContext.destination);
+  }
+
+  modifyFilter = (filterType) => {
     const {
       type,
       detune,
@@ -23,19 +30,18 @@ export class AudioService {
     this.filter.gain.value = gain;
     this.filter.type = type;
     this.filter.detune.value = detune;
-
-    this.source.buffer = buffer;
-    this.source.loop = false;
-    this.source.connect(this.filter);
-    this.filter.connect(context.destination);
   }
 
   playSound = () => {
-    this.source.start(1);
+    if (!this.store.playTouched) {
+      this.source.start(1);
+      this.store.togglePlayTouched();
+    }
+    this.filter.connect(this.audioContext.destination);
   }
 
   stopSound = () => {
-    this.source.stop(1);
+    this.filter.disconnect(this.audioContext.destination);
   }
 
   initializePlayer = () => {
@@ -47,28 +53,30 @@ export class AudioService {
         console.log(error) // eslint-disable-line
       });
     });
-    autorun(() => {
-      const {
-        bufferLoaded,
-        filter,
-        isPlaying,
-      } = this.store;
 
-      if (bufferLoaded) {
-        console.log(bufferLoaded); // eslint-disable-line
-        this.createSound(this.samplebuffer, this.audioContext, filter);
-        switch (isPlaying) {
-          case 'ready':
-            this.playSound();
-            break;
-          case 'playing':
-            this.stopSound();
-            break;
-          default:
-            this.stopSound();
-            break;
+    reaction(
+      () => this.store.filter,
+      (filter) => {
+        this.modifyFilter(filter);
+      },
+    );
+
+    reaction(
+      () => this.store.bufferLoaded,
+      (bufferStatus) => {
+        if (bufferStatus) this.generateSound();
+      },
+    );
+
+    reaction(
+      () => this.store.isPlaying,
+      (playerState) => {
+        if (playerState) {
+          this.playSound();
+        } else {
+          this.stopSound();
         }
-      }
-    });
+      },
+    );
   }
 }
