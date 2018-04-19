@@ -24,10 +24,10 @@ class RootStore {
       type: 'lowpass',
     },
     {
-      detune: 0,
-      frequency: 220,
+      detune: 110,
+      frequency: 420,
       gain: 10,
-      name: 'filter 1',
+      name: 'filter 2',
       nodeType: 'filter',
       type: 'lowshelf',
     },

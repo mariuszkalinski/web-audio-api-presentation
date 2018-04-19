@@ -8,6 +8,14 @@ export class AudioFilter extends HTMLElement {
       mode: 'open',
     });
 
+    const {
+      type,
+      detune,
+      name,
+      frequency,
+      gain,
+    } = this.attributes;
+
     this.shadowRoots.innerHTML = /* html */ `
       <style>
         :host {
@@ -19,9 +27,10 @@ export class AudioFilter extends HTMLElement {
         }
       </style>
       <h4>BiquadFilterNode attributes</h4>
+      <h3>${name.value}</h3>
       <form>
         <div>
-          <select name="type" id="type">
+          <select name="type" id="type" selected="${type.value}">
             <option value="lowpass">lowpass</option>
             <option value="highpass">highpass</option>
             <option value="bandpass">bandpass</option>
@@ -34,15 +43,15 @@ export class AudioFilter extends HTMLElement {
         </div>
         <div>
           <label for="detune">Detune</label>
-          <input type="range" name="detune" id="detune">
+          <input type="range" name="detune" id="detune" value="${detune.value}">
         </div>
         <div>
           <label for="frequency">Frequency</label>
-          <input type="range" name="frequency" id="frequency" min="0" max="3000" value="0">
+          <input type="range" name="frequency" id="frequency" min="0" max="3000" value="${frequency.value}">
         </div>
         <div>
           <label for="gain">Gain</label>
-          <input type="range" name="gain" id="gain">
+          <input type="range" name="gain" id="gain"  value="${gain.value}">
         </div>
       </form>
     `;

@@ -1,6 +1,10 @@
+import { reaction } from 'mobx';
+import { store } from '../../store/rootStore';
+
 export class AudioStream extends HTMLElement {
   constructor() {
     super();
+    this.store = store;
     this.shadowRoots = this.attachShadow({
       mode: 'open',
     });
@@ -18,6 +22,41 @@ export class AudioStream extends HTMLElement {
       <audio-filter></audio-filter>
       <audio-destination></audio-destination>
     `;
+    this.onComponentLoad();
+    this.onUpdateStream();
+  }
+
+  onComponentLoad = () => {
+    const properHtml = this.store.effectsList.reduce((accumulator, element) => {
+      if (element.nodeType === 'filter') {
+        return `${accumulator}
+          <audio-filter
+           frequency="${element.frequency}"
+           name="${element.name}"
+           gain="${element.gain}"
+           detune="${element.detune}"
+           type="${element.type}"
+          ></audio-filter>
+        `;
+      }
+      return accumulator;
+    }, '');
+    this.shadowRoots.innerHTML = properHtml;
+  }
+
+  onUpdateStream = () => {
+    reaction(
+      () => this.store.effectsList,
+      (effectsList) => {
+        const properHtml = effectsList.reduce((accumulator, element) => {
+          if (element.nodeType === 'filter') {
+            return `${accumulator}<audio-filter></audio-filter>`;
+          }
+          return accumulator;
+        }, '');
+        this.shadowRoots.innerHTML = properHtml;
+      },
+    );
   }
 }
 
