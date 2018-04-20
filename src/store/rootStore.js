@@ -1,4 +1,5 @@
 import { observable } from 'mobx';
+import { SAMPLE_GUITAR } from '../consts';
 
 class RootStore {
   @observable filter = {
@@ -16,6 +17,11 @@ class RootStore {
 
   @observable effectsList = [
     {
+      nodeType: 'bufferSource',
+      sourceUrl: SAMPLE_GUITAR,
+      name: 'buffer',
+    },
+    {
       detune: 0,
       frequency: 220,
       gain: 0,
@@ -30,6 +36,10 @@ class RootStore {
       name: 'filter 2',
       nodeType: 'filter',
       type: 'lowshelf',
+    },
+    {
+      nodeType: 'destination',
+      name: 'destination',
     },
   ];
 

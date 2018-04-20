@@ -12,7 +12,6 @@ export class AppRoot extends HTMLElement {
           height: auto;
         }
       </style>
-      <audio-knob></audio-knob>
       <toggle-play></toggle-play>
       <audio-stream></audio-stream>
     `;

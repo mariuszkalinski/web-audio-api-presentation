@@ -1,6 +1,7 @@
 import '@webcomponents/custom-elements/src/native-shim';
 import '@webcomponents/custom-elements';
 import '@webcomponents/shadydom';
+import 'babel-polyfill';
 
 import { AudioService } from './audioService/audioService';
 

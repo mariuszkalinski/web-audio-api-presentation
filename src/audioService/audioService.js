@@ -8,15 +8,55 @@ export class AudioService {
     this.audioContext = new AudioContext();
     this.samplebuffer = null;
     this.store = store;
-    this.filter = this.audioContext.createBiquadFilter();
-    this.source = this.audioContext.createBufferSource();
+    this.buildStream();
   }
 
   generateSound = () => {
+    this.filter = this.audioContext.createBiquadFilter();
+    this.source = this.audioContext.createBufferSource();
     this.source.buffer = this.samplebuffer;
     this.source.loop = true;
     this.source.connect(this.filter);
     this.filter.connect(this.audioContext.destination);
+  }
+
+  buildStream = () => {
+    const { effectsList } = this.store;
+
+    const audioStream = effectsList.reduce((stream, node) => {
+      const { nodeType } = node;
+      const callback = (type) => {
+        if (type === 'bufferSource') return this.initBuffer;
+        if (type === 'filter') return this.initFilter;
+        return () => {};
+      };
+
+      return [
+        ...stream,
+        {
+          node,
+          callback: callback(nodeType),
+          nodeType,
+        },
+      ];
+    }, []);
+    console.log(audioStream); // eslint-disable-line
+
+    async function processSound(array) {
+      await array.reduce((aggr, node) => aggr.then(async () => {
+        await node.callback();
+      }));
+    }
+
+    processSound(audioStream);
+  }
+
+  initBuffer = () => {
+    console.log('initBuffer'); // eslint-disable-line
+  }
+
+  initFilter = () => {
+    console.log('initFilter'); // eslint-disable-line
   }
 
   modifyFilter = (filterType) => {

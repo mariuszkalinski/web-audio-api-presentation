@@ -18,9 +18,7 @@ export class AudioStream extends HTMLElement {
           border-radius: 5px;
         }
       </style>
-      <audio-buffer></audio-buffer>
-      <audio-filter></audio-filter>
-      <audio-destination></audio-destination>
+      <div id="streamView"></div>
     `;
     this.onComponentLoad();
     this.onUpdateStream();
@@ -39,9 +37,14 @@ export class AudioStream extends HTMLElement {
           ></audio-filter>
         `;
       }
+      if (element.nodeType === 'bufferSource') {
+        return `${accumulator}
+          <audio-buffer></audio-buffer>
+        `;
+      }
       return accumulator;
     }, '');
-    this.shadowRoots.innerHTML = properHtml;
+    this.shadowRoots.querySelector('#streamView').innerHTML = properHtml;
   }
 
   onUpdateStream = () => {
