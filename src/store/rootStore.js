@@ -37,10 +37,6 @@ class RootStore {
       nodeType: 'filter',
       type: 'lowshelf',
     },
-    {
-      nodeType: 'destination',
-      name: 'destination',
-    },
   ];
 
   changeFilter(value) {

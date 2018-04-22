@@ -39,6 +39,7 @@
     "@webcomponents/shadydom": "^1.0.14",
     "@webcomponents/webcomponentsjs": "^1.2.0",
     "babel-polyfill": "^6.26.0",
-    "mobx": "^4.1.1"
+    "mobx": "^4.1.1",
+    "rxjs": "^5.5.10"
   }
 }
