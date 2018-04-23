@@ -31,7 +31,7 @@
     "webpack-dev-server": "^3.1.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --host 0.0.0.0 --port 5600 --mode development --open",
     "build": "webpack --mode production"
   },
   "dependencies": {
