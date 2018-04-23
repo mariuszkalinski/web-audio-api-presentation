@@ -1,5 +1,5 @@
 import { reaction } from 'mobx';
-import { concatMap, map } from 'rxjs/operators';
+import { concatMap, reduce } from 'rxjs/operators';
 import { from } from 'rxjs/observable/from';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { of } from 'rxjs/observable/of';
@@ -54,23 +54,40 @@ export class AudioService {
           (val) => {
             if (val.nodeType === 'bufferSource') {
               return val.callback(val.node).pipe(
-                map(bufferArray => bufferArray),
+                concatMap(
+                  bufferArray => fromPromise(
+                    this.audioContext.decodeAudioData(bufferArray, buffer => buffer),
+                  ),
+                ),
               );
             }
 
-            return of(val.callback(val.node));
+            return of(val.callback(val.node, this.audioContext));
           },
         ),
+        reduce((acc, val) => [
+          ...acc,
+          val,
+        ], []),
       );
     };
 
-    processSound(audioStream).subscribe(x => console.log(x));
+    processSound(audioStream).subscribe((x) => {
+      const [buffer, filter1, filter2] = x;
+      const source = this.audioContext.createBufferSource();
+      source.buffer = buffer;
+      source.loop = true;
+      source.connect(filter1);
+      filter1.connect(filter2);
+      filter2.connect(this.audioContext.destination);
+      source.start(1);
+    });
   }
 
   initBuffer = bufferType =>
     fromPromise(loadSample(bufferType.sourceUrl));
 
-  initFilter = (filterType) => {
+  initFilter = (filterType, context) => {
     const {
       type,
       detune,
@@ -78,7 +95,7 @@ export class AudioService {
       gain,
     } = filterType;
 
-    const filter = this.audioContext.createBiquadFilter();
+    const filter = context.createBiquadFilter();
     filter.frequency.value = frequency;
     filter.gain.value = gain;
     filter.type = type;
