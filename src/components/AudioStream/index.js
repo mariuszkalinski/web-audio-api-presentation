@@ -12,10 +12,16 @@ export class AudioStream extends HTMLElement {
       <style>
         :host {
           display: flex;
+          flex-direction: row;
           width: 100%;
           height: 200px;
           background-color: silver;
           border-radius: 5px;
+        }
+
+        :host div {
+          display: flex;
+          flex-direction: row;
         }
       </style>
       <div id="streamView"></div>
@@ -37,11 +43,30 @@ export class AudioStream extends HTMLElement {
           ></audio-filter>
         `;
       }
+
       if (element.nodeType === 'bufferSource') {
         return `${accumulator}
           <audio-buffer></audio-buffer>
         `;
       }
+
+      if (element.nodeType === 'gain') {
+        return `${accumulator}
+          <audio-gain
+            name="${element.name}"
+            value="${element.value}"
+          ></audio-gain>
+        `;
+      }
+
+      if (element.nodeType === 'destination') {
+        return `${accumulator}
+          <audio-destination
+            name="${element.name}"
+          ></audio-destination>
+        `;
+      }
+
       return accumulator;
     }, '');
     this.shadowRoots.querySelector('#streamView').innerHTML = properHtml;

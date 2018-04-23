@@ -1,3 +1,5 @@
+import { COLORS } from '../../consts/colors';
+
 export class AppRoot extends HTMLElement {
   constructor() {
     super();
@@ -9,7 +11,8 @@ export class AppRoot extends HTMLElement {
         :host {
           display: block;
           width: 100%;
-          height: auto;
+          height: 100%;
+          background-color: ${COLORS.MOONROCK};
         }
       </style>
       <toggle-play></toggle-play>

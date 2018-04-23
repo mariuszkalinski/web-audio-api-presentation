@@ -1,5 +1,5 @@
 import { reaction } from 'mobx';
-import { concatMap, reduce } from 'rxjs/operators';
+import { concatMap, reduce, map } from 'rxjs/operators';
 import { from } from 'rxjs/observable/from';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { of } from 'rxjs/observable/of';
@@ -33,6 +33,8 @@ export class AudioService {
       const callback = (type) => {
         if (type === 'bufferSource') return this.initBuffer;
         if (type === 'filter') return this.initFilter;
+        if (type === 'gain') return this.initGain;
+        if (type === 'destination') return this.initDestination;
         return () => {};
       };
 
@@ -59,6 +61,13 @@ export class AudioService {
                     this.audioContext.decodeAudioData(bufferArray, buffer => buffer),
                   ),
                 ),
+                map((buffer) => {
+                  const musicSource = this.audioContext.createBufferSource();
+                  musicSource.buffer = buffer;
+                  musicSource.loop = true;
+
+                  return musicSource;
+                }),
               );
             }
 
@@ -72,37 +81,46 @@ export class AudioService {
       );
     };
 
-    processSound(audioStream).subscribe((x) => {
-      const [buffer, filter1, filter2] = x;
-      const source = this.audioContext.createBufferSource();
-      source.buffer = buffer;
-      source.loop = true;
-      source.connect(filter1);
-      filter1.connect(filter2);
-      filter2.connect(this.audioContext.destination);
-      source.start(1);
+    processSound(audioStream).subscribe((audioNodes) => {
+      audioNodes.forEach((node, index) => {
+        if (audioNodes[index + 1]) {
+          node.connect(audioNodes[index + 1]);
+        } else {
+          audioNodes[0].start(1);
+        }
+      });
     });
   }
 
   initBuffer = bufferType =>
     fromPromise(loadSample(bufferType.sourceUrl));
 
-  initFilter = (filterType, context) => {
+  initFilter = (filter, context) => {
     const {
       type,
       detune,
       frequency,
       gain,
-    } = filterType;
+    } = filter;
 
-    const filter = context.createBiquadFilter();
-    filter.frequency.value = frequency;
-    filter.gain.value = gain;
-    filter.type = type;
-    filter.detune.value = detune;
+    const filterNode = context.createBiquadFilter();
+    filterNode.frequency.value = frequency;
+    filterNode.gain.value = gain;
+    filterNode.type = type;
+    filterNode.detune.value = detune;
 
-    return filter;
+    return filterNode;
   }
+
+  initGain = (gain, context) => {
+    const { value } = gain;
+
+    const gainNode = context.createGain();
+    gainNode.gain.value = value;
+    return gainNode;
+  }
+
+  initDestination = (_, context) => context.destination;
 
   modifyFilter = (filterType) => {
     const {

@@ -37,6 +37,15 @@ class RootStore {
       nodeType: 'filter',
       type: 'lowshelf',
     },
+    {
+      name: 'gain1',
+      nodeType: 'gain',
+      value: 1,
+    },
+    {
+      name: 'destination',
+      nodeType: 'destination',
+    },
   ];
 
   changeFilter(value) {

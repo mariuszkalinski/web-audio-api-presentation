@@ -1,23 +1,25 @@
-export class AudioBuffer extends HTMLElement {
+export class AudioDestination extends HTMLElement {
   constructor() {
     super();
     this.shadowRoots = this.attachShadow({
       mode: 'open',
     });
+
+    const {
+      name,
+    } = this.attributes;
+
     this.shadowRoots.innerHTML = /* html */ `
       <style>
         :host {
           display: block;
           width: 200px;
           height: 100%;
-          background: blue;
+          background: green;
           border-radius: 5px;
         }
-        div {
-          background: red;
-        }
       </style>
-      <div>Buffer source</div>
+      <h3>${name.value}</h3>
     `;
   }
 }
