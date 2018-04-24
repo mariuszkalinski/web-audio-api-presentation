@@ -1,3 +1,5 @@
+import { COLORS } from '../../../consts/colors';
+
 export class AudioDestination extends HTMLElement {
   constructor() {
     super();
@@ -5,21 +7,27 @@ export class AudioDestination extends HTMLElement {
       mode: 'open',
     });
 
-    const {
-      name,
-    } = this.attributes;
-
     this.shadowRoots.innerHTML = /* html */ `
       <style>
         :host {
-          display: block;
-          width: 200px;
-          height: 100%;
-          background: green;
-          border-radius: 5px;
+          align-items: center;
+          background: ${COLORS.VIOLET};
+          border-radius: 50%;
+          border: 15px solid ${COLORS.MOONROCK};
+          display: flex;
+          height: 75px;
+          justify-content: center;
+          position: relative;
+          width: 75px;
+          z-index: 2;
+        }
+
+        span {
+          color: ${COLORS.SILVER};
+          font-size: 24px;
         }
       </style>
-      <h3>${name.value}</h3>
+      <span>D</span>
     `;
   }
 }

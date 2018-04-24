@@ -1,4 +1,5 @@
 import { store } from '../../../store/rootStore';
+import { COLORS } from '../../../consts/colors';
 
 export class AudioGain extends HTMLElement {
   constructor() {
@@ -16,21 +17,39 @@ export class AudioGain extends HTMLElement {
     this.shadowRoots.innerHTML = /* html */ `
       <style>
         :host {
-          display: block;
-          width: 200px;
-          height: 100%;
-          background: green;
-          border-radius: 5px;
+          align-items: center;
+          background: ${COLORS.GREEN_DARK};
+          border-radius: 50%;
+          border: 15px solid ${COLORS.MOONROCK};
+          display: flex;
+          height: 75px;
+          justify-content: center;
+          position: relative;
+          width: 75px;
+          z-index: 2;
+        }
+
+        span {
+          color: ${COLORS.SILVER};
+          font-size: 24px;
+        }
+
+        div {
+          position: absolute;
+          visibility: hidden;
         }
       </style>
-      <h4>Gain attributes</h4>
-      <h3>${name.value}</h3>
-      <form>
-        <div>
-          <label for="value">Value</label>
-          <input type="range" name="value" id="value" value="${value}">
-        </div>
-      </form>
+      <span>G</span>
+      <div>
+        <h4>Gain attributes</h4>
+        <h3>${name.value}</h3>
+        <form>
+          <div>
+            <label for="value">Value</label>
+            <input type="range" name="value" id="value" value="${value}">
+          </div>
+        </form>
+      </div>
     `;
 
     this.shadowRoots.querySelectorAll('input').forEach((field) => {
