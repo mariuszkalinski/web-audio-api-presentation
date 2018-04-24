@@ -13,7 +13,8 @@ export class AudioService {
     this.audioContext = new AudioContext();
     this.samplebuffer = null;
     this.store = store;
-    this.buildStream();
+    this.buildStream(this.store.effectsList);
+    this.onUpdateStream();
   }
 
   generateSound = () => {
@@ -25,9 +26,7 @@ export class AudioService {
     this.filter.connect(this.audioContext.destination);
   }
 
-  buildStream = () => {
-    const { effectsList } = this.store;
-
+  buildStream = (effectsList) => {
     const audioStream = effectsList.reduce((stream, node) => {
       const { nodeType } = node;
       const callback = (type) => {
@@ -182,4 +181,10 @@ export class AudioService {
       },
     );
   }
+  onUpdateStream = () => {
+    reaction(
+      () => this.store.effectsList,
+      effectsList => this.buildStream(effectsList),
+    );
+  };
 }

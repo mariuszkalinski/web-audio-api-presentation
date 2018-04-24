@@ -69,7 +69,15 @@ class RootStore {
   }
 
   addEffect(effect) {
-    this.effectsList = [...this.effectsList, effect];
+    const list = this.effectsList.filter(element => element.nodeType !== 'destination');
+    this.effectsList = [
+      ...list,
+      effect,
+      {
+        name: 'destination',
+        nodeType: 'destination',
+      },
+    ];
   }
 
   removeEffect(effectName) {

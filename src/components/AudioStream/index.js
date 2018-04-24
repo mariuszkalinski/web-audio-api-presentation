@@ -39,12 +39,12 @@ export class AudioStream extends HTMLElement {
       </style>
       <div id="streamView"></div>
     `;
-    this.onComponentLoad();
+    this.onComponentLoad(this.store.effectsList);
     this.onUpdateStream();
   }
 
-  onComponentLoad = () => {
-    const properHtml = this.store.effectsList.reduce((accumulator, element) => {
+  onComponentLoad = (effects) => {
+    const properHtml = effects.reduce((accumulator, element) => {
       if (element.nodeType === 'filter') {
         return `${accumulator}
           <audio-filter
@@ -88,15 +88,7 @@ export class AudioStream extends HTMLElement {
   onUpdateStream = () => {
     reaction(
       () => this.store.effectsList,
-      (effectsList) => {
-        const properHtml = effectsList.reduce((accumulator, element) => {
-          if (element.nodeType === 'filter') {
-            return `${accumulator}<audio-filter></audio-filter>`;
-          }
-          return accumulator;
-        }, '');
-        this.shadowRoots.innerHTML = properHtml;
-      },
+      effectsList => this.onComponentLoad(effectsList),
     );
   }
 }
