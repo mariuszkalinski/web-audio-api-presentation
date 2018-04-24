@@ -37,14 +37,42 @@ export class AudioFilter extends HTMLElement {
           font-size: 24px;
         }
 
-        div {
+        .tooltip {
           position: absolute;
-          visibility: hidden;
+          visibility: visible;
+          background: ${COLORS.GRAY};
+          border-radius: 5px;
+          top: calc(100% + 15px);
+          padding: 10px;
+          box-shadow: rgba(0, 0, 0, 0.31) 0px 2px 10px;
+          text-align: center;
+          color: ${COLORS.SILVER};
+        }
+
+         .tooltip:after {
+          content: '';
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 0 7.5px 10px 7.5px;
+          border-color: transparent transparent #355471 transparent;
+          top: -10px;
+          left: calc(50% - 7px);
+          position: absolute;
+        }
+
+        .tooltip h3 {
+          font-size: 16px;
+          margin: 18px 0;
+        }
+
+        .tooltip label {
+          font-size: 11px;
+          margin: 18px 0;
         }
       </style>
       <span>F</span>
-      <div>
-        <h4>BiquadFilterNode attributes</h4>
+      <div class="tooltip">
         <h3>${name.value}</h3>
         <form>
           <div>

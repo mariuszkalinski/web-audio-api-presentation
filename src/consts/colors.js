@@ -6,4 +6,5 @@ export const COLORS = {
   VIOLET: '#A269AC',
   SILVER: '#DADADA',
   MOONROCK: '#21374B',
+  GRAY: '#355471',
 };
