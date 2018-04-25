@@ -61,7 +61,11 @@ export class AudioStream extends HTMLElement {
 
       if (element.nodeType === 'bufferSource') {
         return `${accumulator}
-          <audio-buffer></audio-buffer>
+          <audio-buffer
+            id="${element.id}"
+            sourceUrl="${element.sourceUrl}"
+            nodeType="${element.nodeType}"
+          ></audio-buffer>
         `;
       }
 
@@ -80,6 +84,18 @@ export class AudioStream extends HTMLElement {
           <audio-destination
             name="${element.name}"
           ></audio-destination>
+        `;
+      }
+
+      if (element.nodeType === 'oscillator') {
+        return `${accumulator}
+          <audio-oscillator
+            nodeType="${element.nodeType}"
+            type="${element.type}"
+            frequency="${element.frequency}"
+            detune="${element.detune}"
+            id="${element.id}"
+          ></audio-oscillator>
         `;
       }
 

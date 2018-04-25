@@ -1,6 +1,6 @@
 import { store } from '../../store/rootStore';
 import { makeid } from '../../utils/makeId';
-
+import { SAMPLE_GUITAR } from '../../consts';
 // import { COLORS } from '../../consts/colors';
 
 export class AddNodes extends HTMLElement {
@@ -20,6 +20,8 @@ export class AddNodes extends HTMLElement {
       <div>
         <button id="addFilter">Add Filter</button>
         <button id="addGain">Add Gain</button>
+        <button id="addOscillator">Add Oscillator</button>
+        <button id="addBuffer">Add Buffer</button>
       </div>
     `;
     this.shadowRoots.querySelector('#addFilter')
@@ -27,6 +29,11 @@ export class AddNodes extends HTMLElement {
 
     this.shadowRoots.querySelector('#addGain')
       .addEventListener('click', this.addGain);
+
+    this.shadowRoots.querySelector('#addOscillator')
+      .addEventListener('click', this.addOscillator);
+    this.shadowRoots.querySelector('#addBuffer')
+      .addEventListener('click', this.addBuffer);
   }
 
   addFilter = () => {
@@ -44,6 +51,24 @@ export class AddNodes extends HTMLElement {
     this.store.addEffect({
       nodeType: 'gain',
       value: 1,
+      id: makeid(),
+    });
+  }
+
+  addOscillator = () => {
+    this.store.addEffect({
+      nodeType: 'oscillator',
+      type: 'square',
+      frequency: 0,
+      detune: 0,
+      id: makeid(),
+    });
+  }
+
+  addBuffer = () => {
+    this.store.addEffect({
+      nodeType: 'bufferSource',
+      sourceUrl: SAMPLE_GUITAR,
       id: makeid(),
     });
   }

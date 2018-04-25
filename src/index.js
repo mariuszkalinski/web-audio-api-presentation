@@ -15,6 +15,7 @@ import { AudioFilter } from './components/effects/AudioFilter/AudioFilter';
 import { AudioGain } from './components/effects/Gain/Gain';
 import { AudioDestination } from './components/effects/AudioDestination/AudioDestination';
 import { AddNodes } from './components/AddNodes/AddNodes';
+import { AudioOscillator } from './components/effects/Oscillator/Oscillator';
 
 import './styles.css';
 
@@ -28,6 +29,7 @@ defineComponents([
   ['audio-gain', AudioGain],
   ['audio-destination', AudioDestination],
   ['add-nodes', AddNodes],
+  ['audio-oscillator', AudioOscillator],
 ]);
 
 const audio = new AudioService();

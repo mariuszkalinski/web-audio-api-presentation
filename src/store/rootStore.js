@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { SAMPLE_GUITAR } from '../consts';
+// import { SAMPLE_GUITAR } from '../consts';
 
 class RootStore {
   @observable filter = {
@@ -16,11 +16,13 @@ class RootStore {
   @observable playTouched = false;
 
   @observable effectsList = [
-    {
-      nodeType: 'bufferSource',
-      sourceUrl: SAMPLE_GUITAR,
-      name: 'buffer',
-    },
+    // {
+    //   nodeType: 'oscillator',
+    //   type: 'square',
+    //   frequency: 0,
+    //   detune: 0,
+    //   id: 'dawda1',
+    // },
     // {
     //   detune: 0,
     //   frequency: 220,

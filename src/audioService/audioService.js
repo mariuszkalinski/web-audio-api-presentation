@@ -35,6 +35,7 @@ export class AudioService {
         if (type === 'filter') return this.initFilter;
         if (type === 'gain') return this.initGain;
         if (type === 'destination') return this.initDestination;
+        if (type === 'oscillator') return this.initOscillator;
         return () => {};
       };
 
@@ -82,13 +83,15 @@ export class AudioService {
     };
 
     processSound(audioStream).subscribe((audioNodes) => {
-      audioNodes.forEach((node, index) => {
-        if (audioNodes[index + 1]) {
-          node.connect(audioNodes[index + 1]);
-        } else {
-          audioNodes[0].start(1);
-        }
-      });
+      if (audioNodes.length > 1) {
+        audioNodes.forEach((node, index) => {
+          if (audioNodes[index + 1]) {
+            node.connect(audioNodes[index + 1]);
+          } else {
+            audioNodes[0].start(1);
+          }
+        });
+      }
     });
   }
 
@@ -118,6 +121,21 @@ export class AudioService {
     const gainNode = context.createGain();
     gainNode.gain.value = value;
     return gainNode;
+  }
+
+  initOscillator = (oscillator, context) => {
+    const {
+      type,
+      detune,
+      frequency,
+    } = oscillator;
+
+    const oscillatorNode = context.createOscillator();
+    oscillatorNode.frequency.value = frequency;
+    oscillatorNode.type = type;
+    oscillatorNode.detune.value = detune;
+
+    return oscillatorNode;
   }
 
   initDestination = (_, context) => context.destination;
