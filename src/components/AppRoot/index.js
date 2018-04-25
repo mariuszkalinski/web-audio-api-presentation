@@ -1,3 +1,5 @@
+import { COLORS } from '../../consts/colors';
+
 export class AppRoot extends HTMLElement {
   constructor() {
     super();
@@ -7,13 +9,14 @@ export class AppRoot extends HTMLElement {
     this.shadowRoots.innerHTML = /* html */ `
       <style>
         :host {
+          color: ${COLORS.SILVER};
           display: block;
           width: 100%;
-          height: auto;
+          height: 100%;
+          background-color: ${COLORS.MOONROCK};
         }
       </style>
-      <audio-knob></audio-knob>
-      <toggle-play></toggle-play>
+      <add-nodes></add-nodes>
       <audio-stream></audio-stream>
     `;
   }

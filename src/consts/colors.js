@@ -1,0 +1,10 @@
+export const COLORS = {
+  GREEN_LIGHT: '#14CC94',
+  YELLOW: '#FFC119',
+  GREEN_DARK: '#09B27F',
+  PINK: '#D900FF',
+  VIOLET: '#A269AC',
+  SILVER: '#DADADA',
+  MOONROCK: '#21374B',
+  GRAY: '#355471',
+};

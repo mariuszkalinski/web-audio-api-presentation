@@ -12,6 +12,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-mobx": "^1.0.2",
     "css-loader": "^0.28.11",
@@ -31,13 +32,15 @@
     "webpack-dev-server": "^3.1.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --host 0.0.0.0 --port 5600 --mode development --open",
     "build": "webpack --mode production"
   },
   "dependencies": {
     "@webcomponents/custom-elements": "^1.1.0",
     "@webcomponents/shadydom": "^1.0.14",
     "@webcomponents/webcomponentsjs": "^1.2.0",
-    "mobx": "^4.1.1"
+    "babel-polyfill": "^6.26.0",
+    "mobx": "^4.1.1",
+    "rxjs": "^5.5.10"
   }
 }

@@ -1,6 +1,7 @@
 import '@webcomponents/custom-elements/src/native-shim';
 import '@webcomponents/custom-elements';
 import '@webcomponents/shadydom';
+import 'babel-polyfill';
 
 import { AudioService } from './audioService/audioService';
 
@@ -11,6 +12,11 @@ import { AudioBuffer } from './components/Sources/AudioBuffer';
 import { defineComponents } from './utils/defineComponents';
 import { AudioStream } from './components/AudioStream';
 import { AudioFilter } from './components/effects/AudioFilter/AudioFilter';
+import { AudioGain } from './components/effects/Gain/Gain';
+import { AudioDestination } from './components/effects/AudioDestination/AudioDestination';
+import { AddNodes } from './components/AddNodes/AddNodes';
+
+import './styles.css';
 
 defineComponents([
   ['app-root', AppRoot],
@@ -19,6 +25,9 @@ defineComponents([
   ['audio-stream', AudioStream],
   ['audio-buffer', AudioBuffer],
   ['audio-filter', AudioFilter],
+  ['audio-gain', AudioGain],
+  ['audio-destination', AudioDestination],
+  ['add-nodes', AddNodes],
 ]);
 
 const audio = new AudioService();

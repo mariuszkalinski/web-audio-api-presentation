@@ -1,4 +1,5 @@
 import { observable } from 'mobx';
+import { SAMPLE_GUITAR } from '../consts';
 
 class RootStore {
   @observable filter = {
@@ -16,20 +17,34 @@ class RootStore {
 
   @observable effectsList = [
     {
-      detune: 0,
-      frequency: 220,
-      gain: 0,
-      name: 'filter 1',
-      nodeType: 'filter',
-      type: 'lowpass',
+      nodeType: 'bufferSource',
+      sourceUrl: SAMPLE_GUITAR,
+      name: 'buffer',
     },
+    // {
+    //   detune: 0,
+    //   frequency: 220,
+    //   gain: 0,
+    //   name: 'filter 1',
+    //   nodeType: 'filter',
+    //   type: 'lowpass',
+    // },
+    // {
+    //   detune: 110,
+    //   frequency: 420,
+    //   gain: 10,
+    //   name: 'filter 2',
+    //   nodeType: 'filter',
+    //   type: 'lowshelf',
+    // },
+    // {
+    //   name: 'gain1',
+    //   nodeType: 'gain',
+    //   value: 1,
+    // },
     {
-      detune: 0,
-      frequency: 220,
-      gain: 10,
-      name: 'filter 1',
-      nodeType: 'filter',
-      type: 'lowshelf',
+      name: 'destination',
+      nodeType: 'destination',
     },
   ];
 
@@ -54,16 +69,27 @@ class RootStore {
   }
 
   addEffect(effect) {
-    this.effectsList = [...this.effectsList, effect];
+    const list = this.effectsList.filter(element => element.nodeType !== 'destination');
+    this.effectsList = [
+      ...list,
+      effect,
+      {
+        name: 'destination',
+        nodeType: 'destination',
+      },
+    ];
   }
 
-  removeEffect(effectName) {
-    this.effectsList = this.effectsList.filter(effect => effect.name !== effectName);
+  removeEffect(effectId) {
+    this.effectsList = this.effectsList.filter(effect => effect.id !== effectId);
   }
-  // TODO
-  // updateEffect(effectName) {
-  //   this.effectsList = this.effectsList
-  // }
+
+  updateEffect(effect) {
+    const effects = this.effectsList;
+    const effectId = effects.findIndex(element => element.id === effect.id);
+    effects[effectId] = effect;
+    this.effectsList = [...effects];
+  }
 }
 
 export const store = new RootStore();

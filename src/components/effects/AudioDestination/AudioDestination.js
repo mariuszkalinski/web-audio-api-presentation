@@ -1,16 +1,17 @@
 import { COLORS } from '../../../consts/colors';
 
-export class AudioBuffer extends HTMLElement {
+export class AudioDestination extends HTMLElement {
   constructor() {
     super();
     this.shadowRoots = this.attachShadow({
       mode: 'open',
     });
+
     this.shadowRoots.innerHTML = /* html */ `
       <style>
         :host {
           align-items: center;
-          background: ${COLORS.GREEN_LIGHT};
+          background: ${COLORS.VIOLET};
           border-radius: 50%;
           border: 15px solid ${COLORS.MOONROCK};
           display: flex;
@@ -25,15 +26,8 @@ export class AudioBuffer extends HTMLElement {
           color: ${COLORS.SILVER};
           font-size: 24px;
         }
-
-        div {
-          background: red;
-          position: absolute;
-          visibility: hidden;
-        }
       </style>
-      <span>B</span>
-      <div>Buffer source</div>
+      <span>D</span>
     `;
   }
 }
