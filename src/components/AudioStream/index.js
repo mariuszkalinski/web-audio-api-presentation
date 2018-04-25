@@ -53,6 +53,8 @@ export class AudioStream extends HTMLElement {
            gain="${element.gain}"
            detune="${element.detune}"
            type="${element.type}"
+           nodeType="${element.nodeType}"
+           id="${element.id}"
           ></audio-filter>
         `;
       }
@@ -66,8 +68,9 @@ export class AudioStream extends HTMLElement {
       if (element.nodeType === 'gain') {
         return `${accumulator}
           <audio-gain
-            name="${element.name}"
+            id="${element.id}"
             value="${element.value}"
+            nodeType="${element.nodeType}"
           ></audio-gain>
         `;
       }

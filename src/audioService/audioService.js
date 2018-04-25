@@ -12,6 +12,7 @@ export class AudioService {
   constructor() {
     this.audioContext = new AudioContext();
     this.samplebuffer = null;
+    this.currentlyPlaying = null;
     this.store = store;
     this.buildStream(this.store.effectsList);
     this.onUpdateStream();
@@ -184,7 +185,11 @@ export class AudioService {
   onUpdateStream = () => {
     reaction(
       () => this.store.effectsList,
-      effectsList => this.buildStream(effectsList),
+      (effectsList) => {
+        this.audioContext.close();
+        this.audioContext = new AudioContext();
+        this.buildStream(effectsList);
+      },
     );
   };
 }

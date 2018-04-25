@@ -1,4 +1,5 @@
 import { store } from '../../store/rootStore';
+import { makeid } from '../../utils/makeId';
 
 // import { COLORS } from '../../consts/colors';
 
@@ -22,17 +23,28 @@ export class AddNodes extends HTMLElement {
       </div>
     `;
     this.shadowRoots.querySelector('#addFilter')
-      .addEventListener('click', () => {
-        this.store.addEffect({
-          detune: 110,
-          frequency: 420,
-          gain: 10,
-          name: 'filter 3',
-          nodeType: 'filter',
-          type: 'lowshelf',
-        });
+      .addEventListener('click', this.addFilter);
 
-        console.log(this.store.effectsList);
-      });
+    this.shadowRoots.querySelector('#addGain')
+      .addEventListener('click', this.addGain);
+  }
+
+  addFilter = () => {
+    this.store.addEffect({
+      detune: 110,
+      frequency: 420,
+      gain: 10,
+      nodeType: 'filter',
+      type: 'lowshelf',
+      id: makeid(),
+    });
+  }
+
+  addGain = () => {
+    this.store.addEffect({
+      nodeType: 'gain',
+      value: 1,
+      id: makeid(),
+    });
   }
 }
