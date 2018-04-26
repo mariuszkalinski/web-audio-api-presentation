@@ -14,9 +14,10 @@ export class AudioStream extends HTMLElement {
         :host {
           display: flex;
           flex-direction: row;
-          width: 100%;
+          width: calc(100% - 180px);
           height: 100px;
           border-radius: 5px;
+          padding: 0 90px;
         }
 
         :host div {
@@ -25,6 +26,7 @@ export class AudioStream extends HTMLElement {
           justify-content: space-between;
           width: 100%;
           position: relative;
+          margin-top: 100px;
         }
 
         :host div:after {
@@ -61,7 +63,11 @@ export class AudioStream extends HTMLElement {
 
       if (element.nodeType === 'bufferSource') {
         return `${accumulator}
-          <audio-buffer></audio-buffer>
+          <audio-buffer
+            id="${element.id}"
+            sourceUrl="${element.sourceUrl}"
+            nodeType="${element.nodeType}"
+          ></audio-buffer>
         `;
       }
 
@@ -80,6 +86,18 @@ export class AudioStream extends HTMLElement {
           <audio-destination
             name="${element.name}"
           ></audio-destination>
+        `;
+      }
+
+      if (element.nodeType === 'oscillator') {
+        return `${accumulator}
+          <audio-oscillator
+            nodeType="${element.nodeType}"
+            type="${element.type}"
+            frequency="${element.frequency}"
+            detune="${element.detune}"
+            id="${element.id}"
+          ></audio-oscillator>
         `;
       }
 

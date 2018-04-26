@@ -1,7 +1,8 @@
+
 import { store } from '../../../store/rootStore';
 import { COLORS } from '../../../consts/colors';
 
-export class AudioFilter extends HTMLElement {
+export class AudioOscillator extends HTMLElement {
   constructor() {
     super();
     this.store = store;
@@ -11,9 +12,8 @@ export class AudioFilter extends HTMLElement {
 
     const {
       type: { value: type },
-      detune: { value: detune },
       frequency: { value: frequency },
-      gain: { value: gain },
+      detune: { value: detune },
       id: { value: id },
     } = this.attributes;
 
@@ -23,7 +23,7 @@ export class AudioFilter extends HTMLElement {
       <style>
         :host {
           align-items: center;
-          background: ${COLORS.YELLOW};
+          background: ${COLORS.RED};
           border-radius: 50%;
           border: 15px solid ${COLORS.MOONROCK};
           display: flex;
@@ -87,38 +87,34 @@ export class AudioFilter extends HTMLElement {
           height: 100%;
         }
       </style>
-      <span>F</span>
+      <span>O</span>
       <div class="delete">
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px" y="0px"
-          width="44px" height="44px" viewBox="0 0 44 44" enable-background="new 0 0 44 44" xml:space="preserve">
-        <g>
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            fill="#DADADA"
-            d="M38.824,0L44,5.178L5.176,44L0,38.825L38.824,0z"/>
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            fill="#DADADA"
-            d="M5.176,0L44,38.825L38.824,44L0,5.178L5.176,0z"/>
-        </g>
-        </svg>
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px" y="0px"
+        width="44px" height="44px" viewBox="0 0 44 44" enable-background="new 0 0 44 44" xml:space="preserve">
+      <g>
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          fill="#DADADA"
+          d="M38.824,0L44,5.178L5.176,44L0,38.825L38.824,0z"/>
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          fill="#DADADA"
+          d="M5.176,0L44,38.825L38.824,44L0,5.178L5.176,0z"/>
+      </g>
+      </svg>
       </div>
       <div class="tooltip">
-        <h3>Filter</h3>
+        <h3>Oscillator</h3>
         <form>
           <div>
             <select name="type" id="type">
-              <option ${type === 'lowpass' && selected} value="lowpass">lowpass</option>
-              <option ${type === 'highpass' && selected} value="highpass">highpass</option>
-              <option ${type === 'bandpass' && selected} value="bandpass">bandpass</option>
-              <option ${type === 'lowshelf' && selected} value="lowshelf">lowshelf</option>
-              <option ${type === 'highshelf' && selected} value="highshelf">highshelf</option>
-              <option ${type === 'peaking' && selected} value="peaking">peaking</option>
-              <option ${type === 'notch' && selected} value="notch">notch</option>
-              <option ${type === 'allpass' && selected} value="allpass">allpass</option>
+              <option ${type === 'sine' && selected} value="sine">sine</option>
+              <option ${type === 'square' && selected} value="square">square</option>
+              <option ${type === 'sawtooth' && selected} value="sawtooth">sawtooth</option>
+              <option ${type === 'triangle' && selected} value="triangle">triangle</option>
             </select>
           </div>
           <div>
@@ -128,10 +124,6 @@ export class AudioFilter extends HTMLElement {
           <div>
             <label for="frequency">Frequency</label>
             <input type="range" name="frequency" id="frequency" min="0" max="3000" value="${frequency}">
-          </div>
-          <div>
-            <label for="gain">Gain</label>
-            <input type="range" name="gain" id="gain"  value="${gain}">
           </div>
         </form>
       </div>
@@ -152,7 +144,6 @@ export class AudioFilter extends HTMLElement {
     const {
       detune: { value: detune },
       frequency: { value: frequency },
-      gain: { value: gain },
       nodeType: { value: nodeType },
       type: { value: type },
       id: { value: id },
@@ -161,7 +152,6 @@ export class AudioFilter extends HTMLElement {
     const oldValues = {
       detune,
       frequency,
-      gain,
       nodeType,
       type,
       id,

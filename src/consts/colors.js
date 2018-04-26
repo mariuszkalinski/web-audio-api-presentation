@@ -7,4 +7,5 @@ export const COLORS = {
   SILVER: '#DADADA',
   MOONROCK: '#21374B',
   GRAY: '#355471',
+  RED: '#FF3600',
 };

@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { SAMPLE_GUITAR } from '../consts';
+// import { SAMPLE_GUITAR } from '../consts';
 
 class RootStore {
   @observable filter = {
@@ -16,32 +16,6 @@ class RootStore {
   @observable playTouched = false;
 
   @observable effectsList = [
-    {
-      nodeType: 'bufferSource',
-      sourceUrl: SAMPLE_GUITAR,
-      name: 'buffer',
-    },
-    // {
-    //   detune: 0,
-    //   frequency: 220,
-    //   gain: 0,
-    //   name: 'filter 1',
-    //   nodeType: 'filter',
-    //   type: 'lowpass',
-    // },
-    // {
-    //   detune: 110,
-    //   frequency: 420,
-    //   gain: 10,
-    //   name: 'filter 2',
-    //   nodeType: 'filter',
-    //   type: 'lowshelf',
-    // },
-    // {
-    //   name: 'gain1',
-    //   nodeType: 'gain',
-    //   value: 1,
-    // },
     {
       name: 'destination',
       nodeType: 'destination',
@@ -81,7 +55,18 @@ class RootStore {
   }
 
   removeEffect(effectId) {
-    this.effectsList = this.effectsList.filter(effect => effect.id !== effectId);
+    const effectPosition = this.effectsList.findIndex(element => element.id === effectId);
+
+    if (effectPosition === 0) {
+      this.effectsList = [
+        {
+          name: 'destination',
+          nodeType: 'destination',
+        },
+      ];
+    } else {
+      this.effectsList = this.effectsList.filter(effect => effect.id !== effectId);
+    }
   }
 
   updateEffect(effect) {
