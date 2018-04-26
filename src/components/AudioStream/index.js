@@ -14,9 +14,10 @@ export class AudioStream extends HTMLElement {
         :host {
           display: flex;
           flex-direction: row;
-          width: 100%;
+          width: calc(100% - 180px);
           height: 100px;
           border-radius: 5px;
+          padding: 0 90px;
         }
 
         :host div {
@@ -25,6 +26,7 @@ export class AudioStream extends HTMLElement {
           justify-content: space-between;
           width: 100%;
           position: relative;
+          margin-top: 100px;
         }
 
         :host div:after {

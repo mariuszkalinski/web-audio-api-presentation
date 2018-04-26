@@ -1,7 +1,7 @@
 import { store } from '../../store/rootStore';
 import { makeid } from '../../utils/makeId';
 import { SAMPLE_GUITAR } from '../../consts';
-// import { COLORS } from '../../consts/colors';
+import { COLORS } from '../../consts/colors';
 
 export class AddNodes extends HTMLElement {
   constructor() {
@@ -15,13 +15,39 @@ export class AddNodes extends HTMLElement {
         :host {
           display: block;
         }
+
+        .section {
+          padding: 10px 0;
+        }
+
+        button {
+          background: none;
+          border: 2px solid white;
+          color: white;
+          border-radius: 4px;
+          padding: 10px;
+          text-transform: uppercase;
+          margin: 10px;
+          cursor: pointer;
+        }
+
+        button:hover {
+          background: white;
+          color: ${COLORS.MOONROCK}
+        }
       </style>
       <h1>Add Audio Node</h1>
       <div>
-        <button id="addFilter">Add Filter</button>
-        <button id="addGain">Add Gain</button>
-        <button id="addOscillator">Add Oscillator</button>
-        <button id="addBuffer">Add Buffer</button>
+        <div class="section">
+          <span>Sources</span>
+          <button id="addOscillator">Add Oscillator</button>
+          <button id="addBuffer">Add Buffer</button>
+        </div>
+        <div class="section">
+          <span>Effects</span>
+          <button id="addFilter">Add Filter</button>
+          <button id="addGain">Add Gain</button>
+        </div>
       </div>
     `;
     this.shadowRoots.querySelector('#addFilter')
